@@ -22,25 +22,25 @@ namespace KATA
             this.upcDiscount = Products.UPC_Discount;
          
         }
-        double addTax()
+        double AddTax()
         {
 
             double priceWithTax = Price+(Price * Tax / 100);
             return Math.Round(priceWithTax, 2);
         }
 
-        double createUniDiscount()
+        double CreateUniDiscount()
         {
             double amountofDiscount =Price * Discount / 100;
             //check if it is a speical upc
             if (specialUPC.Contains(UPC))
             {
-                amountofDiscount = amountofDiscount +createUPCDiscount();
+                amountofDiscount = amountofDiscount +CreateUPCDiscount();
                 return Math.Round(amountofDiscount, 2);
             }
             else return Math.Round(amountofDiscount, 2);
         }
-        double createUPCDiscount()
+        double CreateUPCDiscount()
         {
             double UPCDiscount =Price * upcDiscount / 100;
             return UPCDiscount;
@@ -50,22 +50,21 @@ namespace KATA
         {
             if (Discount != 0)
             {
-                Console.Write($"Tax Amount= ${Math.Round(Price * Tax / 100, 2)}, Discount Amount = ${createUniDiscount()}" +
-                            $"\nTittle = {Name}, UPC = {UPC}, Price = ${addTax()-createUniDiscount()}");
+                Console.Write($"Tax Amount= ${Math.Round(Price * Tax / 100, 2)}, Discount Amount = ${CreateUniDiscount()}" +
+                            $"\nTittle = {Name}, UPC = {UPC}, Price = ${AddTax()-CreateUniDiscount()}");
 
             }
             else
             {
-                Console.Write($"Tax Amount = ${Math.Round(Price * Tax / 100,2)}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${addTax()}");
+                Console.Write($"Tax Amount = ${Math.Round(Price * Tax / 100,2)}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${AddTax()}");
             }
         }
 
-        public void doServices() {
-            addTax();
-            createUniDiscount();
+        public void DoServices() {
+            AddTax();
+            CreateUniDiscount();
             Report();
         }
-
 
     }
 }

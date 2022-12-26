@@ -13,7 +13,7 @@ namespace KATA
             Products.UPC_Discount = 7;
             PaymentServices case1Pay = new PaymentServices(case1);
 
-            case1Pay.doServices();
+            case1Pay.DoServices();
 
             Console.WriteLine();
             Console.WriteLine();
@@ -23,7 +23,7 @@ namespace KATA
        
             PaymentServices case2Pay = new PaymentServices(case2);
 
-            case2Pay.doServices();
+            case2Pay.DoServices();
             Console.WriteLine();
 
         }

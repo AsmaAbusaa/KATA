@@ -22,7 +22,7 @@ namespace KATA
 
         }
 
-        public void addSpecialUPC(string sUPC)
+        public void AddSpecialUPC(string sUPC)
         {
             specialUPC.Add(sUPC);
 
