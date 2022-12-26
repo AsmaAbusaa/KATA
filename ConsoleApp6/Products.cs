@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace KATA
 {
-   public class Products 
+    public class Products
     {
         public string Name { get; set; }
         public string UPC { get; set; }
@@ -9,6 +11,8 @@ namespace KATA
 
         public static int Tax { get; set; }
         public static int Discount { get; set; }
+        public static int UPC_Discount { get; set; }
+        public static List<string> specialUPC = new List<string>() { "1234", "4321" };
 
         public Products(string name,string upc,double price)
         {
@@ -18,6 +22,11 @@ namespace KATA
 
         }
 
+        public void addSpecialUPC(string sUPC)
+        {
+            specialUPC.Add(sUPC);
+
+        }
        
     }
 }
