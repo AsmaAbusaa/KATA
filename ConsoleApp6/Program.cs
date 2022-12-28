@@ -7,16 +7,23 @@ namespace KATA
         static void Main(string[] args)
         {
 
-            Products.Tax = 20;
+            Products.Tax = 21;
             Products.Discount = 15;
             Products.UPC_Discount = 7;
 
             Products case1 = new Products("The little Prince","1234",20.25);
             
-            PaymentServices case1Pay = new PaymentServices(case1);
+            IPaymentsServices case1Pay = new PaymentServices(case1);
+            
+            case1Pay = new Packaging(case1Pay);
+            case1Pay = new Transport(case1Pay);
 
-            case1Pay.Precedence(true,false);
-            Console.Write(case1.Price);
+          
+            Console.WriteLine(case1Pay.getDescription());
+
+            //case1Pay.Precedence(true,false);
+
+
 
             Console.WriteLine();
             Console.WriteLine();
