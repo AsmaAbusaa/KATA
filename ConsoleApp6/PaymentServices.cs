@@ -22,6 +22,7 @@ namespace KATA
             this.upcDiscount = Products.UPC_Discount;
          
         }
+        
         double AddTax()
         {
 
@@ -32,38 +33,46 @@ namespace KATA
         double CreateUniDiscount()
         {
             double amountofDiscount =Price * Discount / 100;
-            //check if it is a speical upc
-            if (specialUPC.Contains(UPC))
-            {
-                amountofDiscount = amountofDiscount +CreateUPCDiscount();
-                return Math.Round(amountofDiscount, 2);
-            }
-            else return Math.Round(amountofDiscount, 2);
+            return Math.Round(amountofDiscount, 2);
         }
         double CreateUPCDiscount()
         {
-            double UPCDiscount =Price * upcDiscount / 100;
-            return UPCDiscount;
+            double UPCDiscount=0;
+            if (specialUPC.Contains(UPC))
+                UPCDiscount = Price * upcDiscount / 100;
+
+            return Math.Round(UPCDiscount, 2);
         }
 
-        void Report()
+        public void Report()
         {
             if (Discount != 0)
             {
-                Console.Write($"Tax Amount= ${Math.Round(Price * Tax / 100, 2)}, Discount Amount = ${CreateUniDiscount()}" +
+                Console.WriteLine($"Tax Amount= ${Math.Round(Price * Tax / 100, 2)}, Discount Amount = ${CreateUniDiscount()}" +
                             $"\nTittle = {Name}, UPC = {UPC}, Price = ${AddTax()-CreateUniDiscount()}");
 
             }
             else
             {
-                Console.Write($"Tax Amount = ${Math.Round(Price * Tax / 100,2)}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${AddTax()}");
+                Console.WriteLine($"Tax Amount = ${Math.Round(Price * Tax / 100,2)}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${AddTax()}");
             }
         }
 
-        public void DoServices() {
-            AddTax();
-            CreateUniDiscount();
+
+
+        public void Precedence(bool upcFlag,bool uniFlag) {
+            if (upcFlag && uniFlag)//apply  2 type of discount before tax 
+            {
+                Price = Price - (CreateUniDiscount() + CreateUPCDiscount());
+
+            }
+            else if (upcFlag)//apply upc discount before tax
+                Price = Price - CreateUPCDiscount();
+
+            else if (uniFlag)//apply uni discount before tax 
+                Price = Price - CreateUniDiscount();
             Report();
+
         }
 
     }

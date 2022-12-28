@@ -6,14 +6,17 @@ namespace KATA
     {
         static void Main(string[] args)
         {
-           
-            Products case1 = new Products("The little Prince","1234",20.25);
+
             Products.Tax = 20;
             Products.Discount = 15;
             Products.UPC_Discount = 7;
+
+            Products case1 = new Products("The little Prince","1234",20.25);
+            
             PaymentServices case1Pay = new PaymentServices(case1);
 
-            case1Pay.DoServices();
+            case1Pay.Precedence(true,false);
+            Console.Write(case1.Price);
 
             Console.WriteLine();
             Console.WriteLine();
@@ -23,7 +26,7 @@ namespace KATA
        
             PaymentServices case2Pay = new PaymentServices(case2);
 
-            case2Pay.DoServices();
+           // case2Pay.Precedence(true, true);
             Console.WriteLine();
 
         }
