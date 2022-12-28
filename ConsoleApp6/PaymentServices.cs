@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace KATA
 {
-    public class PaymentServices
+    public class PaymentServices:IPaymentsServices
     {
-        double Price;
+        public double Price { get; set; }
         int Tax, Discount,upcDiscount;
         string Name,UPC;
         List<string> specialUPC;
@@ -22,7 +22,7 @@ namespace KATA
             this.upcDiscount = Products.UPC_Discount;
          
         }
-        
+                
         double AddTax()
         {
 
@@ -48,7 +48,7 @@ namespace KATA
         {
             if (Discount != 0)
             {
-                Console.WriteLine($"Tax Amount= ${Math.Round(Price * Tax / 100, 2)}, Discount Amount = ${CreateUniDiscount()}" +
+                Console.WriteLine($"Tax Amount= ${Math.Round(Price * Tax / 100, 2)}, Discount Amount = ${CreateUniDiscount()+CreateUPCDiscount()}" +
                             $"\nTittle = {Name}, UPC = {UPC}, Price = ${AddTax()-CreateUniDiscount()}");
 
             }
@@ -57,8 +57,6 @@ namespace KATA
                 Console.WriteLine($"Tax Amount = ${Math.Round(Price * Tax / 100,2)}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${AddTax()}");
             }
         }
-
-
 
         public void Precedence(bool upcFlag,bool uniFlag) {
             if (upcFlag && uniFlag)//apply  2 type of discount before tax 
@@ -75,5 +73,25 @@ namespace KATA
 
         }
 
+        public string getDescription()
+        {
+            var str=" ";
+            if (Discount != 0)
+            {
+               str= ($"Tax Amount= ${Math.Round(Price * Tax / 100, 2)}, Discount Amount = ${CreateUniDiscount() + CreateUPCDiscount()}" +
+                            $"\nTittle = {Name}, UPC = {UPC}, Price = ${Cost()}");
+            }
+            else
+            {
+               str= ($"Tax Amount = ${Math.Round(Price * Tax / 100, 2)}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${Cost()}");
+            }
+            return str;
+
+        }
+        public double Cost()
+        {
+            double cost = AddTax() - (CreateUniDiscount() + CreateUPCDiscount());
+            return Math.Round(cost,2);
+        }
     }
 }
