@@ -26,7 +26,7 @@ namespace KATA
        
             PaymentServices case2Pay = new PaymentServices(case2);
 
-           // case2Pay.Precedence(true, true);
+          
             Console.WriteLine();
 
         }

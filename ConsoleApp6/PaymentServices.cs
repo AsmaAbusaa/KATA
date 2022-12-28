@@ -44,7 +44,7 @@ namespace KATA
             return Math.Round(UPCDiscount, 2);
         }
 
-        public void Report()
+        void Report()
         {
             if (Discount != 0)
             {
