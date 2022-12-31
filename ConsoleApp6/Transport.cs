@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KATA
 {
-    class Transport : IDecorater
+    class Transport : IPaymentsServices
     {
         IPaymentsServices payments;
         public Transport(IPaymentsServices payments)
@@ -21,7 +17,8 @@ namespace KATA
 
         public string getDescription()
         {
-            return payments.getDescription() + "\nTotal: " + Cost();
+            return payments.getDescription() + "\nTransport: "+2.2
+                +"\nTotal cost: "+ Cost();
         }
     }
 }
