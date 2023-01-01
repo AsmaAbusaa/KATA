@@ -14,6 +14,7 @@ namespace KATA
         public static int UPC_Discount { get; set; } = 0;
         public static List<string> specialUPC = new List<string>() { "1234", "4321" };
         public static bool FlagDiscount=true;// Addetive or Multiplication Discount, defualt is addetive discount
+        public Products() { }
         public Products(string name,string upc,double price)
         {
             this.Name = name;

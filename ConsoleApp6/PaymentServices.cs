@@ -6,13 +6,13 @@ namespace KATA
     public class PaymentServices:IPaymentsServices
     {
         public double Price { get; set; } = 0;
-         int Tax, Discount,upcDiscount;
-        string Name,UPC;
+        int Tax, Discount, upcDiscount;
+        string Name, UPC;
         List<string> specialUPC;
 
-        public bool flagDiscount; //when flag is true then --> Additavie Discount
+        public bool isAdditaveDiscount; //when flag is true then --> Additavie Discount
         public PaymentServices(Products p)
-        { 
+        {
             this.Price = p.Price;
             this.Name = p.Name;
             this.UPC = p.UPC;
@@ -20,13 +20,12 @@ namespace KATA
             this.Discount = Products.Discount;
             this.specialUPC = Products.specialUPC;
             this.upcDiscount = Products.UPC_Discount;
-            this.flagDiscount = Products.FlagDiscount;
-         
+            this.isAdditaveDiscount = Products.FlagDiscount;
+
         }
                 
         public double AddTax()
         {
-
             double TaxPercentage =Price * Tax / 100;
             return Math.Round(TaxPercentage, 2);
         }
