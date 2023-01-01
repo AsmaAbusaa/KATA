@@ -41,8 +41,8 @@ namespace KATA
         public string getDescription()
         {
             if(isAdditaveDiscount)
-            return payment.getDescription() + "\nDiscount Amount: "+ CheckCap(getAdditiveDiscounts());
-            return payment.getDescription() + "\nDiscount Amount: " + CheckCap(getMultiplicativeDiscount());
+            return payment.getDescription() + "\nDiscount Amount: "+ CheckCap(getAdditiveDiscounts())+" "+payment.Currency;
+            return payment.getDescription() + "\nDiscount Amount: " + CheckCap(getMultiplicativeDiscount())+" "+ payment.Currency;
         }
         double getAdditiveDiscounts()
         {
@@ -55,6 +55,11 @@ namespace KATA
             double multPrice = payment.CreateUPCDiscount(tempPrice) + payment.CreateUniDiscount(payment.Price);
 
             return Math.Round(multPrice,2);
+        }
+
+        public string getCurrency()
+        {
+            return payment.getCurrency();
         }
     }
 }

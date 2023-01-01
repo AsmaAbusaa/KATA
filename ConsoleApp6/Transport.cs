@@ -17,8 +17,12 @@ namespace KATA
 
         public string getDescription()
         {
-            return payments.getDescription() + "\nTransport: "+2.2
-                +"\nTotal cost: "+ Cost();
+            return payments.getDescription() + "\nTransport: "+2.2+" "+getCurrency()
+                +"\nTotal cost: "+ Cost()+" "+getCurrency();
+        }
+        public string getCurrency()
+        {
+            return payments.getCurrency();
         }
     }
 }

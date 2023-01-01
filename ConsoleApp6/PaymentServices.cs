@@ -5,7 +5,8 @@ namespace KATA
 {
     public class PaymentServices:IPaymentsServices
     {
-        public double Price { get; set; } = 0;
+        public string Currency;
+        public double Price= 0;
         int Tax, Discount, upcDiscount;
         string Name, UPC;
         List<string> specialUPC;
@@ -13,6 +14,7 @@ namespace KATA
         public bool isAdditaveDiscount; //when flag is true then --> Additavie Discount
         public PaymentServices(Products p)
         {
+            this.Currency = p.Currency;
             this.Price = p.Price;
             this.Name = p.Name;
             this.UPC = p.UPC;
@@ -82,7 +84,7 @@ namespace KATA
             }
             else
             {
-               str= ($"Tax Amount = ${AddTax()}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${Price}");
+               str= ($"Tax Amount = ${AddTax()}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${Price}+{Currency}");
             }
             return str;
 
@@ -92,6 +94,9 @@ namespace KATA
             return Math.Round(Price+AddTax(),2);
         }
 
-       
+        public string getCurrency()
+        {
+            return Currency;
+        }
     }
 }
