@@ -2,7 +2,7 @@
 {
     public interface IPaymentsServices
     {
-        public string getCurrency();
+        public (double,string) getCurrency();
         public string getDescription();
         public double Cost();
     }

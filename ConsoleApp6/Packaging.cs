@@ -5,25 +5,25 @@ namespace KATA
     class Packaging : IPaymentsServices
     {
         IPaymentsServices payments;
-        double price=0;
-        public Packaging(IPaymentsServices payments,double price)
+        double PackagingAmount = 0;
+        public Packaging(IPaymentsServices payments,double packaging,bool isAbsolute)
         {
             this.payments = payments;
-            this.price = price;
+            if (isAbsolute)
+                this.PackagingAmount = packaging;
+            else this.PackagingAmount = packaging*getCurrency().Item1 / 100;
+           
         }
-
         public string getDescription()
         {
-            return payments.getDescription() + "\nPackaging: " + Math.Round(.01 * payments.Cost(), 2)+" "+getCurrency();
+            return payments.getDescription() + "\nPackaging: " + Math.Round(PackagingAmount, 2)+" "+getCurrency().Item2;
         }
-
         public double Cost()
         {
-            double costWithPackage = Math.Round(.01*price  , 2) + payments.Cost();
+            double costWithPackage = PackagingAmount + payments.Cost();
             return costWithPackage;
         }
-
-        public string getCurrency()
+        public (double,string) getCurrency()
         {
             return payments.getCurrency();
         }

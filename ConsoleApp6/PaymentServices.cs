@@ -22,20 +22,20 @@ namespace KATA
             this.Discount = Products.Discount;
             this.specialUPC = Products.specialUPC;
             this.upcDiscount = Products.UPC_Discount;
-            this.isAdditaveDiscount = Products.FlagDiscount;
+            this.isAdditaveDiscount = Products.isAddetiveDiscount;
 
         }
                 
-        public double AddTax()
+        public double getTaxAmount()
         {
             double TaxPercentage =Price * Tax / 100;
-            return Math.Round(TaxPercentage, 2);
+            return Math.Round(TaxPercentage, 4);
         }
 
         public double CreateUniDiscount(double price)
         {
             double amountofDiscount =price * Discount / 100;
-            return Math.Round(amountofDiscount, 2);
+            return Math.Round(amountofDiscount, 4);
         }
         public double CreateUPCDiscount(double price)
         {
@@ -43,24 +43,11 @@ namespace KATA
             if (specialUPC.Contains(UPC))
                 UPCDiscount = price * upcDiscount / 100;
 
-            return Math.Round(UPCDiscount, 2);
+            return Math.Round(UPCDiscount, 4);
         }
 
-        void Report()
+        public void Precedence(bool upcFlag,bool uniFlag)
         {
-            if (Discount != 0)
-            {
-                Console.WriteLine($"Tax Amount= ${AddTax()}, Discount Amount = ${CreateUniDiscount(Price)+CreateUPCDiscount(Price)}" +
-                            $"\nTittle = {Name}, UPC = {UPC}, Price = ${Cost()}");
-
-            }
-            else
-            {
-                Console.WriteLine($"Tax Amount = ${AddTax()}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${Cost()}");
-            }
-        }
-
-        public void Precedence(bool upcFlag,bool uniFlag) {
             if (upcFlag && uniFlag)//apply  2 type of discount before tax 
             {
                 Price = Price - (CreateUniDiscount(Price) + CreateUPCDiscount(Price));
@@ -71,8 +58,6 @@ namespace KATA
 
             else if (uniFlag)//apply uni discount before tax 
                 Price = Price - CreateUniDiscount(Price);
-            Report();
-
         }
 
         public string getDescription()
@@ -80,23 +65,23 @@ namespace KATA
             var str=" ";
             if (Discount != 0)
             {
-               str= ($"Tax Amount= ${AddTax()}\nTittle = {Name}, UPC = {UPC}");
+               str= ($"Tax Amount= ${Math.Round(getTaxAmount(),2)}\nTittle = {Name}, UPC = {UPC}");
             }
             else
             {
-               str= ($"Tax Amount = ${AddTax()}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${Price}+{Currency}");
+               str= ($"Tax Amount = ${Math.Round(getTaxAmount(), 2)}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${Math.Round(Price,2)}+{Currency}");
             }
             return str;
 
         }
         public double Cost()
         {
-            return Math.Round(Price+AddTax(),2);
+            return Math.Round(Price+getTaxAmount(),4);
         }
 
-        public string getCurrency()
+        public (double,string) getCurrency()
         {
-            return Currency;
+            return (Price,Currency);
         }
     }
 }
