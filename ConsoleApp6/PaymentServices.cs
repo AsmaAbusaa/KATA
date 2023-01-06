@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace KATA
 {
-    public class PaymentServices
+    public class PaymentServices:IPaymentsServices
     {
-        double Price;
-        int Tax, Discount;
+        public double Price { get; set; }
+        int Tax, Discount,upcDiscount;
         string Name,UPC;
-
+        List<string> specialUPC;
+       
         
         public PaymentServices(Products p)
         { 
@@ -15,35 +18,80 @@ namespace KATA
             this.UPC = p.UPC;
             this.Tax = Products.Tax;
             this.Discount = Products.Discount;
+            this.specialUPC = Products.specialUPC;
+            this.upcDiscount = Products.UPC_Discount;
          
         }
-        public double addTax()
+                
+        double AddTax()
         {
 
-            double priceWithTax = Price + (Price * Tax / 100);
+            double priceWithTax = Price+(Price * Tax / 100);
             return Math.Round(priceWithTax, 2);
         }
 
-        public double createDiscount()
+        double CreateUniDiscount()
         {
-            double pricewithDiscount = addTax() - (Price * Discount / 100);
-            return Math.Round(pricewithDiscount, 2);
+            double amountofDiscount =Price * Discount / 100;
+            return Math.Round(amountofDiscount, 2);
+        }
+        double CreateUPCDiscount()
+        {
+            double UPCDiscount=0;
+            if (specialUPC.Contains(UPC))
+                UPCDiscount = Price * upcDiscount / 100;
+
+            return Math.Round(UPCDiscount, 2);
         }
 
-        public void Report()
+        void Report()
         {
             if (Discount != 0)
             {
-                Console.Write($"Tax Amount= ${Price * Tax / 100}, Discount Amount = ${Price * Discount / 100}" +
-                            $"\nTittle = {Name}, UPC = {UPC}, Price = ${createDiscount()}");
+                Console.WriteLine($"Tax Amount= ${Math.Round(Price * Tax / 100, 2)}, Discount Amount = ${CreateUniDiscount()+CreateUPCDiscount()}" +
+                            $"\nTittle = {Name}, UPC = {UPC}, Price = ${Cost()}");
 
             }
             else
             {
-                Console.Write($"Tax Amount = ${Price * Tax / 100}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${addTax()}");
+                Console.WriteLine($"Tax Amount = ${Math.Round(Price * Tax / 100,2)}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${Cost()}");
             }
         }
 
+        public void Precedence(bool upcFlag,bool uniFlag) {
+            if (upcFlag && uniFlag)//apply  2 type of discount before tax 
+            {
+                Price = Price - (CreateUniDiscount() + CreateUPCDiscount());
 
+            }
+            else if (upcFlag)//apply upc discount before tax
+                Price = Price - CreateUPCDiscount();
+
+            else if (uniFlag)//apply uni discount before tax 
+                Price = Price - CreateUniDiscount();
+            Report();
+
+        }
+
+        public string getDescription()
+        {
+            var str=" ";
+            if (Discount != 0)
+            {
+               str= ($"Tax Amount= ${Math.Round(Price * Tax / 100, 2)}, Discount Amount = ${CreateUniDiscount() + CreateUPCDiscount()}" +
+                            $"\nTittle = {Name}, UPC = {UPC}, Price = ${Cost()}");
+            }
+            else
+            {
+               str= ($"Tax Amount = ${Math.Round(Price * Tax / 100, 2)}, no Discount\nTittle = {Name}, UPC = {UPC}, Price = ${Cost()}");
+            }
+            return str;
+
+        }
+        public double Cost()
+        {
+            double cost = AddTax() - (CreateUniDiscount() + CreateUPCDiscount());
+            return Math.Round(cost,2);
+        }
     }
 }
